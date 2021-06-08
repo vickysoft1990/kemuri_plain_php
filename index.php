@@ -1,4 +1,13 @@
 <?php
+     if(isset($_REQUEST['filename'])){
+    $file = $_REQUEST['filename'];
+    header("Cache-Control: public");
+    header("Content-Description: File Transfer");
+    header("Content-Disposition: attachment; filename=".$file."");
+    header("Content-Transfer-Encoding: binary");
+    header("Content-Type: binary/octet-stream");
+    readfile($file);
+     }
    if(isset($_POST['import'])){
    if(isset($_FILES["csvFile"]["type"]))
    {
@@ -124,8 +133,7 @@
                            <pre>
       Choose CSV File to Upload
 	  <input type="file"  accept=".csv" id="file" name="csvFile" required>
-	  <a href="sampledata.csv" download> Download sample </a>
-
+	  <a  onclick="downloadfile()"> Download sample </a>
 	 <input type="text" name="fileSubmit" hidden>
 	  <input type="submit" id="submit" name="import" value="upload" style="float: left;">
 	   </pre>
@@ -275,6 +283,8 @@
       window.open(url, '_self');
       
       }
-      
+      function downloadfile(){
+        window.location="index.php?filename=sampledata.csv";
+      }
    </script>
 </html>
