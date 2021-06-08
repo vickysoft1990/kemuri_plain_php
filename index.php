@@ -177,6 +177,7 @@
                         <div >
                            <ul class="list-group">
                               <?php
+                                 $tot=0;
                                  $oldmode="";
                                  $r=0;
                                  if(sizeof($finalArr)<=0){
@@ -223,7 +224,7 @@
          </div>
       </div>
       </div>
-      <input type='text' hidden readonly id="flag" name="flag"   value="<?php echo$flag;?>"               
+      <input type='text' hidden readonly id="flag" name="flag"   value=""               
    </body>
    <script>
         function loadAnalysis() {
