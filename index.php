@@ -88,8 +88,8 @@
    }
    
    if($iv==0){
-     echo"<script>alert('No data present from the given range!!')</script>";
-    // $finalArr=array_slice($companyShares, 0, 3, true);// Tp show atlest 3 value
+    echo"<script>alert('No data present from the given range!!')</script>";
+    $finalArr=array_slice($companyShares,-5);// To show last 5 value
    }
    }
    ?>
@@ -164,7 +164,11 @@
                            <ul class="list-group">
                               <?php
                                  $oldmode="";
+                                 $r=0;
                                     foreach($finalArr as $key => $val){
+                                       $dataPoints[$r]['y']=$val;
+                                       $dataPoints[$r]['label']=$key;
+           
                                         $nextAmt=next($finalArr);
                                         if($nextAmt<$val){
                                             $mode='sell';
@@ -184,6 +188,7 @@
                                    }
                                         }
                                         $oldmode=$mode;
+                                        $r++;
                                     }
                                     echo "Total Profit :".$tot;
                                     ?>			        
