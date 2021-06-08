@@ -225,29 +225,8 @@
       </div>
       <input type='text' hidden readonly id="flag" name="flag"   value="<?php echo$flag;?>"               
    </body>
-   <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-   <script language = "JavaScript">
-      window.onload = function() {
-      
-      var chart = new CanvasJS.Chart("chartContainer", {
-      animationEnabled: true,
-      theme: "light2",
-      title:{
-      text: "Price Analysis"
-      },
-      axisY: {
-      title: "Stock Price"
-      },
-      data: [{
-      type: "column",
-      yValueFormatString: "#,##0.## Rupees",
-      dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
-      }]
-      });
-      chart.render();
-      
-      }
-      function loadAnalysis() {
+   <script>
+        function loadAnalysis() {
       var fromDate = $("#fromDate").val();
       var toDate = $("#toDate").val();
       var compList = $("#compList").val();
@@ -286,5 +265,29 @@
       function downloadfile(){
         window.location="index.php?filename=sampledata.csv";
       }
+
    </script>
+   <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+   <script language = "JavaScript">
+      window.onload = function() {
+      
+      var chart = new CanvasJS.Chart("chartContainer", {
+      animationEnabled: true,
+      theme: "light2",
+      title:{
+      text: "Price Analysis"
+      },
+      axisY: {
+      title: "Stock Price"
+      },
+      data: [{
+      type: "column",
+      yValueFormatString: "#,##0.## Rupees",
+      dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+      }]
+      });
+      chart.render();
+      
+      }
+        </script>
 </html>
