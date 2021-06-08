@@ -9,18 +9,22 @@
                "type" => "error",
                "message" => "File input should not be empty."
            );
+             showError("Error: File input should not be empty");
        } // Validate file input to check if is with valid extension
        else if ($file_extension != "csv") {
                $response = array(
                    "type" => "error",
                    "message" => "Invalid CSV: File must have .csv extension."
                );
+             showError("Error,Invalid CSV: File must have .csv extension.");
            } // Validate file size
        else if (($_FILES["csvFile"]["size"] > 2000000)) {
                $response = array(
                    "type" => "error",
                    "message" => "Invalid CSV: File size is too large."
                );
+            showError("Error: Invalid CSV: File size is too large");
+
            } // Validate if all the records have same number of fields
        	else
    		{
@@ -30,13 +34,11 @@
    				$targetPath = "sampledata.csv"; // Target path where file is to be stored
    				unlink($targetPath);
    				move_uploaded_file($sourcePath,$targetPath); // Moving Uploaded file				
-   		        $response = array(
-                   "type" => "success",
-                   "message" => "Moved."
-                   );	
+   		        showError("Successfully Uploaded !!");
+	
    		}
    	}
-   print_r($response);
+  // print_r($response);
    }
    
    $row = 1;
@@ -88,9 +90,13 @@
    }
    
    if($iv==0){
-    echo"<script>alert('No data present from the given range!!')</script>";
+   $message="No data present from the given range!! Showing last 5 records";
+   showError($message);
     $finalArr=array_slice($companyShares,-5);// To show last 5 value
    }
+   }
+   function showError($message=''){
+    echo"<script>alert('".$message."')</script>";
    }
    ?>
 <!DOCTYPE html>
@@ -165,11 +171,13 @@
                               <?php
                                  $oldmode="";
                                  $r=0;
+                                 if(sizeof($finalArr)<=0){
+                                     echo "Invalid Company!!";
+                                 }else{
                                     foreach($finalArr as $key => $val){
-                                       $dataPoints[$r]['y']=$val;
-                                       $dataPoints[$r]['label']=$key;
-           
-                                        $nextAmt=next($finalArr);
+                                       $dataPoints[$r]['y']=$val; // for graph
+                                       $dataPoints[$r]['label']=$key; // for graph
+                                       $nextAmt=next($finalArr);
                                         if($nextAmt<$val){
                                             $mode='sell';
                                         }
@@ -177,20 +185,22 @@
                                             $mode='buy';
                                         }
                                         if($mode=="buy" && $oldmode!=$mode){
-                                  $buyVal=$val;
-                                   echo "Buy on ".$key." Morning <br>";
+                                   $buyVal=$val;
+                                   echo "Buy on <strong>".$key."</strong> Morning <br>";
                                         }
                                         elseif($mode=="sell" && $oldmode!=$mode){
-                                   echo "Sell on ".$key." Evening (Trading closes)<br>";
-                                   if($oldmode==""){}
+                                   echo "Sell on <strong>".$key."</strong> Evening (Trading closes)<br>";
+                                   if($oldmode==""){
+                                       // first loop nil
+                                   }
                                    else{
-                                   $tot=$tot+$val-$buyVal;
+                                   $tot=$tot+$val-$buyVal; // calculate the profit alone
                                    }
                                         }
                                         $oldmode=$mode;
                                         $r++;
                                     }
-                                    echo "Total Profit :".$tot;
+                                    echo "<strong> Total Profit : ".$tot."</strong>";
                                     ?>			        
                            </ul>
                         </div>
@@ -198,6 +208,7 @@
                   </div>
                </div>
                <?php
+                  }
                   }
                   ?>
             </div>
