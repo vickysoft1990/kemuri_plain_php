@@ -1,5 +1,8 @@
 <?php
-     if(isset($_REQUEST['filename'])){
+ini_set('memory_limit', '512M');// to increase the memory to process large amount of data
+ini_set('max_execution_time', 300);// five min max execution time
+
+    if(isset($_REQUEST['filename'])){
     $file = $_REQUEST['filename'];
     header("Cache-Control: public");
     header("Content-Description: File Transfer");
